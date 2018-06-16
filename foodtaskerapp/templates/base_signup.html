@@ -1,0 +1,40 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{% block title %}{% endblock %}</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+<body class="bg-blue">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-lg-offset-4">
+        <br/>
+        <br/>
+        <br/>
+        <div class="panel panel-body">
+          <div class="panel-body">
+            <h3 class="text-center text-uppercase"><b>{% block heading %}{% endblock %}</b></h3>
+            <br>
+              {% block content %}{% endblock %}
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</body>
+</html>
