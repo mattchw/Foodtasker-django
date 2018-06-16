@@ -1,5 +1,52 @@
 {% extends 'restaurant/base.html' %}
 
 {% block page %}
-  Restaurant order
+<div class="panel">
+  <div class="panel-heading bg-blue">
+    <h4 class="panel-title text-center text-white">
+      Orders
+    </h4>
+  </div>
+  <div class="panel-body">
+    <br>
+    <table class="table table-bordered table-hover table-striped">
+      <thead>
+        <tr class="bg-gray text-white">
+          <th>ID</th>
+          <th>Order Details</th>
+          <th>Customer</th>
+          <th>Driver</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr>
+            <td scope="row">{{order.id}}</td>
+            <td>
+              {% for od in order.order_details.all %}
+                {{od.meal.name}} {{od.meal.price}} x {{od.meal.quantity}} = ${{od.sub_total}}
+              {% endfor %}
+            </td>
+            <td>{{order.customer}}</td>
+            <td>{{order.driver}}</td>
+            <td>{{order.total}}</td>
+            <td>{{order.get_status_display}}</td>
+            <td>
+              {% if order.status == 1 %}
+              <form method="POST">
+                {% csrf_token %}
+                <input name="id" value="{{order.id}}" hidden>
+                <button class="btn btn-success">Ready</button>
+              </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {% endblock %}
