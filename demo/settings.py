@@ -138,14 +138,14 @@ db_from_env = dj_database_url.config()
 DATABASES['default'].update(db_from_env)
 
 AUTHENTICATION_BACKENDS = (
-   'social_core.backends.facebook.FacebookOAuth2',
+   'social.backends.facebook.FacebookOAuth2',
    #'rest_framework_social_oauth2.backends.DjangoOAuth2',
    'django.contrib.auth.backends.ModelBackend',
 )
 
 # Facebook configuration
-SOCIAL_AUTH_FACEBOOK_KEY = '184517885719939'
-SOCIAL_AUTH_FACEBOOK_SECRET = '2378d5e0effa4077bdf691655e989110'
+SOCIAL_AUTH_FACEBOOK_KEY = '231332064296911'
+SOCIAL_AUTH_FACEBOOK_SECRET = '1003aee47ecd62cbe5a7b48bd2c2de77'
 
 # Define SOCIAL_AUTH_FACEBOOK_SCOPE to get extra permissions from facebook. Email is not sent by default, to get it, you must request the email permission:
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
