@@ -9,6 +9,10 @@ from oauth2_provider.models import AccessToken
 from foodtaskerapp.models import Restaurant, Meal, Order, OrderDetails
 from foodtaskerapp.serializers import RestaurantSerializer, MealSerializer, OrderSerializer
 
+#############
+# CUSTOMERS #
+#############
+
 def customer_get_restaurants(request):
     restaurants = RestaurantSerializer(
         Restaurant.objects.all().order_by("-id"),
@@ -90,6 +94,10 @@ def customer_get_latest_order(request):
     order = OrderSerializer(Order.objects.filter(customer = customer).last()).data
     return JsonResponse({"order": order})
 
+###############
+# RESTAURANTS #
+###############
+
 def restaurant_order_notification(request, last_request_time):
     """
         select count(*) from Orders
@@ -99,3 +107,22 @@ def restaurant_order_notification(request, last_request_time):
         created_at__gt = last_request_time).count()
 
     return JsonResponse({"notification":notification})
+
+###########
+# DRIVERS #
+###########
+
+def driver_get_ready_orders(request):
+    return JsonResponse({})
+
+def driver_pick_order(request):
+    return JsonResponse({})
+
+def driver_get_latest_order(request):
+    return JsonResponse({})
+
+def driver_complete_order(request):
+    return JsonResponse({})
+
+def driver_get_revenue(request):
+    return JsonResponse({})
