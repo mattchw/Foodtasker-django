@@ -177,5 +177,27 @@ def driver_complete_order(request):
 
     return JsonResponse({"status": "success"})
 
+# GET params: access_token
 def driver_get_revenue(request):
-    return JsonResponse({})
+    access_token = AccessToken.objects.get(token=request.GET.get("access_token"),expires__gt=timezone.now())
+
+    driver = access_token.user.driver
+
+    from datetime import timedelta
+
+    revenue = {}
+    today = timezone.now()
+    current_weekdays = [today + timedelta(days=i) for i in range(0-today.weekday(), 7-today.weekday())]
+
+    for day in current_weekdays:
+        orders = Order.objects.filter(
+            driver = driver,
+            status = Order.DELIVERED,
+            created_at__year = day.year,
+            created_at__month = day.month,
+            created_at__day = day.day,
+        )
+
+        revenue[day.strftime("%a")] = sum(order.total for order in orders)
+
+    return JsonResponse({"revenue": revenue})
