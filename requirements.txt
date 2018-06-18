@@ -5,5 +5,4 @@ whitenoise==3.2.1
 dj-database-url==0.4.1
 psycopg2==2.7.2
 django-rest-framework-social-oauth2==1.0.4
-django-oauth-toolkit==0.10.0
 django-bootstrap3==7.0.1
