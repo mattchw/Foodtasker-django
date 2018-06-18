@@ -3,6 +3,7 @@ gunicorn==19.6.0
 Pillow==3.3.0
 whitenoise==3.2.1
 dj-database-url==0.4.1
-psycopg2==2.7.2
+psycopg2==2.6.2
 django-rest-framework-social-oauth2==1.0.4
 django-bootstrap3==7.0.1
+stripe==1.37.0

@@ -5,9 +5,9 @@ from foodtaskerapp.forms import UserForm, RestaurantForm, UserFormForEdit, MealF
 from django.contrib.auth import authenticate, login
 
 from django.contrib.auth.models import User
-from foodtaskerapp.models import Meal, Order
+from foodtaskerapp.models import Meal, Order, Driver
 
-from django.db.models import Sum
+from django.db.models import Sum, Count, Case, When
 
 # Create your views here.
 def home(request):
@@ -116,10 +116,25 @@ def restaurant_report(request):
         "data": [meal.total_order or 0 for meal in top3_meals]
     }
 
+    # top 3 drivers
+    top3_drivers = Driver.objects.annotate(
+        total_order = Count(
+            Case(
+                When(order__restaurant=request.user.restaurant, then=1)
+            )
+        )
+    ).order_by("-total_order")[:3]
+
+    driver = {
+        "labels": [driver.user.get_username() for driver in top3_drivers],
+        "data": [driver.total_order for driver in top3_drivers]
+    }
+
     return render(request, 'restaurant/report.html', {
         "revenue": revenue,
         "orders": orders,
-        "meal": meal
+        "meal": meal,
+        "driver": driver
     })
 
 def restaurant_sign_up(request):

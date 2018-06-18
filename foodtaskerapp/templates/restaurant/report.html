@@ -98,6 +98,36 @@
           </script>
         </div>
       </div>
+      <!-- top 3 drivers all time -->
+      <div class="panel">
+        <div class="panel-heading bg-blue">
+          <h4 class="panel-title text-center text-white">
+            top 3 drivers
+          </h4>
+        </div>
+        <div class="panel-body">
+          <canvas id="driverChart" height="242"></canvas>
+          <script type="text/javascript">
+            var ctx = document.getElementById('driverChart').getContext("2d");
+            var data = {
+              labels: {{driver.labels|safe}},
+              datasets: [
+                {
+                  label: "Revenue by Week",
+                  backgroundColor: [
+                    "#36A2EB","#FFCE56","#FF6384"
+                  ],
+                  data: {{driver.data}}
+                }
+              ]
+            };
+            new Chart(ctx, {
+              type: 'pie',
+              data: data
+            })
+          </script>
+        </div>
+      </div>
     </div>
   </div>
 {% endblock %}
