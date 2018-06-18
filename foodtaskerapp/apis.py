@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 from oauth2_provider.models import AccessToken
 
-from foodtaskerapp.models import Restaurant, Meal, Order, OrderDetails
+from foodtaskerapp.models import Restaurant, Driver, Meal, Order, OrderDetails
 from foodtaskerapp.serializers import RestaurantSerializer, MealSerializer, OrderSerializer
 
 #############
@@ -93,6 +93,18 @@ def customer_get_latest_order(request):
     customer = access_token.user.customer
     order = OrderSerializer(Order.objects.filter(customer = customer).last()).data
     return JsonResponse({"order": order})
+
+# GET params: access_token
+def customer_driver_location(request):
+    access_token = AccessToken.objects.get(token=request.GET.get("access_token"),expires__gt=timezone.now())
+
+    customer = access_token.user.customer
+
+    # get driver's location related to this customer's order
+    current_order = Order.objects.filter(customer = customer, status = Order.ONTHEWAY).last()
+    location = current_order.driver.location
+
+    return JsonResponse({"location": location})
 
 ###############
 # RESTAURANTS #
@@ -201,3 +213,17 @@ def driver_get_revenue(request):
         revenue[day.strftime("%a")] = sum(order.total for order in orders)
 
     return JsonResponse({"revenue": revenue})
+
+# POST params: access_token, 'lat', 'lng'
+@csrf_exempt
+def driver_update_location(request):
+    if request.method == "POST":
+        access_token = AccessToken.objects.get(token=request.POST.get("access_token"),expires__gt=timezone.now())
+
+        driver = access_token.user.driver
+
+        # set location string -> database
+        driver.location = request.POST["location"]
+        driver.save()
+
+        return JsonResponse({"status":"success"})

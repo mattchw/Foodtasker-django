@@ -1,5 +1,103 @@
 {% extends 'restaurant/base.html' %}
 
+{% block script %}
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+{% endblock %}
+
 {% block page %}
-  Restaurant report
+  <div class="row">
+    <div class="col-lg-8">
+      <!-- Revenue by week -->
+      <div class="panel">
+        <div class="panel-heading bg-blue">
+          <h4 class="panel-title text-center text-white">
+            Revenue by week
+          </h4>
+        </div>
+        <div class="panel-body">
+          <canvas id="revenueChart" height="110"></canvas>
+          <script type="text/javascript">
+            var ctx = document.getElementById('revenueChart').getContext("2d");
+            var data = {
+              labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+              datasets: [
+                {
+                  label: "Revenue by Week",
+                  backgroundColor: "rgba(54,162,235,0.9)",
+                  hoverBackgroundColor: "rgba(54,162,235,1)",
+                  data: {{revenue}}
+                }
+              ]
+            };
+            new Chart(ctx, {
+              type: 'bar',
+              data: data
+            })
+          </script>
+        </div>
+      </div>
+      <!-- Orders by week -->
+      <div class="panel">
+        <div class="panel-heading bg-blue">
+          <h4 class="panel-title text-center text-white">
+            Orders by week
+          </h4>
+        </div>
+        <div class="panel-body">
+          <canvas id="orderChart" height="110"></canvas>
+          <script type="text/javascript">
+            var ctx = document.getElementById('orderChart').getContext("2d");
+            var data = {
+              labels: ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"],
+              datasets: [
+                {
+                  label: "Revenue by Week",
+                  backgroundColor: "rgba(255,99,132,0.9)",
+                  hoverBackgroundColor: "rgba(255,99,132,1)",
+                  data: {{orders}}
+                }
+              ]
+            };
+            new Chart(ctx, {
+              type: 'bar',
+              data: data
+            })
+          </script>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-lg-4">
+      <!-- top 3 meals -->
+      <div class="panel">
+        <div class="panel-heading bg-blue">
+          <h4 class="panel-title text-center text-white">
+            top 3 meals
+          </h4>
+        </div>
+        <div class="panel-body">
+          <canvas id="mealChart" height="242"></canvas>
+          <script type="text/javascript">
+            var ctx = document.getElementById('mealChart').getContext("2d");
+            var data = {
+              labels: {{meal.labels|safe}},
+              datasets: [
+                {
+                  label: "Revenue by Week",
+                  backgroundColor: [
+                    "#36A2EB","#FFCE56","#FF6384"
+                  ],
+                  data: {{meal.data}}
+                }
+              ]
+            };
+            new Chart(ctx, {
+              type: 'pie',
+              data: data
+            })
+          </script>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
