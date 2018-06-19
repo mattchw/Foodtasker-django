@@ -1,5 +1,5 @@
 # Foodtasker-swift
-A comprehensive system for Food Delivery like UberEats, Doordash and Postmate. This is a course project for "Create UberEats with Python/Django and Swift 3" in Code4Startup
+A comprehensive system for Food Delivery like UberEats, Doordash and Postmate. This is a course project for "Create UberEats with Python/Django and Swift 3" in Code4Startup. I extended some functions based on the existing project.
 
 ## Introduction
 
